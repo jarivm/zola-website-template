@@ -1,0 +1,46 @@
+base_url = "https://example.com"
+default_language = "nl"
+title = "Bedrijfsnaam"
+description = "Dit is een beschrijving van deze website. De beschrijving bestaat uit 50 tot 160 tekens."
+author = "Jari van Menxel"
+compile_sass = true
+minify_html = true
+build_search_index = false
+generate_feeds = true
+
+[markdown]
+
+highlight_code = false
+smart_punctuation = true
+external_links_target_blank = true
+external_links_no_referrer = true
+
+[translations]
+
+form_name = "Naam"
+form_email = "E-mail"
+form_message = "Bericht"
+form_submit = "Formulier verzenden"
+
+[extra]
+
+copyright_start_year = "2024"
+default_og_image = "https://picsum.photos/seed/og/400/300"
+enable_form = true
+
+[extra.org]
+
+name = "Company Name"
+email = "info@example.com"
+phone = "06 XX XX XX XX"
+kvk_nr = "XXXXXXX"
+btw_id = "XXXXXXX"
+slogan = "Wij werken aan een betere wereld. Deze tekst kan hier staan maar het hoeft niet."
+
+[extra.org.address]
+
+street = "Straat 123"
+postcode = "1234 AB"
+city = "Stad"
+country = "Nederland"
+map_link = "https://www.openstreetmap.org/#map=16/52.07875/4.31136"

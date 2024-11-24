@@ -1,0 +1,267 @@
+{% import "macros.html" as macros %}
+
+<!doctype html>
+<html lang="{{ lang }}">
+	<head>
+		<!-- Standard meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<meta name="author" content="{{ config.author | safe }}" />
+
+		{% set description = config.description %}
+		{% if section.description %}
+			{% set description = section.description %}
+		{% elif page.description %}
+			{% set description = page.description %}
+		{% endif %}
+		<meta name="description" content="{{ description | safe }}" />
+
+		{% if current_path %}
+			<link rel="canonical" href="{{ current_url }}" />
+		{% endif %}
+
+		<!-- Title -->
+		{% if section.title %}
+			<title>{{ section.title }} | {{ config.title }}</title>
+		{% elif page.title %}
+			<title>{{ page.title }} | {{ config.title }}</title>
+		{% else %}
+			<title>{{ config.title }}</title>
+		{% endif %}
+
+		<!-- Initialize theme before first render to prevent flickering. -->
+		<script>
+			function detectTheme() {
+				if (localStorage.getItem("theme")) {
+					if (localStorage.getItem("theme") == "dark") {
+						return "dark";
+					} else if (localStorage.getItem("theme") == "light") {
+						return "light";
+					}
+				}
+				if (!window.matchMedia) {
+					return "light";
+				}
+				if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					return "dark";
+				}
+				return "light";
+			}
+
+			document.documentElement.setAttribute("data-theme", detectTheme());
+		</script>
+
+		<!-- OpenGraph tags for social media -->
+		{% if section.title %}
+			<meta property="og:title" content="{{ section.title | safe }}" />
+		{% elif page.title %}
+			<meta property="og:title" content="{{ page.title | safe }}" />
+		{% else %}
+			<title>{{ config.title | safe }}</title>
+		{% endif %}
+		<meta property="og:description" content="{{ description | safe }}" />
+		<meta property="og:type" content="website" />
+		{% if current_path %}
+			<meta property="og:url" content="{{ current_url }}" />
+		{% endif %}
+		<meta
+			property="og:image"
+			content="{{ config.extra.default_og_image }}"
+		/>
+
+		<!-- Favicons -->
+		<link rel="icon" href="data:," />
+
+		<!-- Preloads -->
+		<!-- TODO -->
+
+		<!-- Stylesheets and scripts -->
+		<link href="{{ get_url(path='/style.css') }}" rel="stylesheet" />
+
+		<!-- For Atom feed readers -->
+		<link
+			rel="alternate"
+			type="application/atom+xml"
+			title="RSS"
+			href="{{ get_url(path='/atom.xml') }}"
+		/>
+
+		<!-- Netlify identity -->
+		<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+		<!-- Other -->
+		{% if page.extra.noindex %}
+			<meta name="robots" content="noindex" />
+		{% endif %}
+	</head>
+
+	{% set index = get_section(path="_index.md") %}
+	{% if lang == "en" %}
+		{% set index = get_section(path="_index.en.md") %}
+	{% endif %}
+
+	<body ontouchstart="">
+		<div class="skiplinks">
+			<a href="#main">Skip naar main content</a>
+			<a href="#nav">Skip naar main menu</a>
+		</div>
+
+		<header id="header">
+			<div class="header__content">
+				<div class="header__top">
+					<a
+						class="link"
+						title="{{ config.title }}"
+						href="{{ index.path }}"
+						>{{ config.title }}</a
+					>
+
+					<button id="nav-toggle" class="veggieburger">
+						<div class="veggieburger__line"></div>
+						<div class="veggieburger__line"></div>
+						<div class="veggieburger__line"></div>
+					</button>
+				</div>
+
+				<nav id="nav" class="nav" style="max-height: 0px">
+					<ul>
+						{% for link in index.extra.nav %}
+							{% set style = "button--borderless" %}
+							{% if link.is_primary %}
+								{% set style = "" %}
+							{% endif %}
+
+							<li>
+								<a
+									class="button {{ style }}"
+									href="{{ link.href }}"
+									title="{{ link.title }}"
+									>{{ link.title }}</a
+								>
+							</li>
+						{% endfor %}
+
+						<li>
+							<button
+								id="theme-toggle"
+								class="button button--borderless"
+								title="Thema veranderen"
+							>
+								<i id="theme-toggle-icon" class="fa-solid"></i>
+							</button>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main id="main">{% block content %}{% endblock %}</main>
+
+		<footer id="footer">
+			<div class="footer__content">
+				<div class="footer__column">
+					<a
+						class="link"
+						href="{{ index.path }}"
+						title="{{ config.title }}"
+					>
+						<h2>{{ config.title }}</h2>
+					</a>
+
+					<p>{{ config.extra.org.slogan }}</p>
+
+					<a class="button" href="/contact/">Contact</a>
+				</div>
+
+				<div class="footer__column">
+					<h2>Navigatie</h2>
+
+					<ul>
+						{% for link in index.extra.footer_nav %}
+							<li>
+								<a
+									href="{{ link.href }}"
+									title="{{ link.title }}"
+									>{{ link.title }}</a
+								>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+
+				<div class="footer__column">
+					<h2>Gegevens</h2>
+
+					<ul>
+						{% if config.extra.org.email %}
+							<li>
+								<a href="{{ config.extra.org.email }}"
+									>{{ config.extra.org.email }}</a
+								>
+							</li>
+						{% endif %}
+						{% if config.extra.org.phone %}
+							<li>
+								<a href="{{ config.extra.org.phone }}"
+									>{{ config.extra.org.phone }}</a
+								>
+							</li>
+						{% endif %}
+						<li>
+							<address class="address">
+								<a
+									href="{{ config.extra.org.address.map_link }}"
+									target="_blank"
+									rel="norefferer noopener"
+								>
+									{{ config.extra.org.address.street }}<br />{{ config.extra.org.address.postcode }}
+									{{ config.extra.org.address.city }}</a
+								>
+							</address>
+						</li>
+						<li>KVK-nr: {{ config.extra.org.kvk_nr }}</li>
+						<li>Btw-id: {{ config.extra.org.btw_id }}</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="footer__content">
+				<div class="footer__column">
+					<p>
+						{% set year = now() | date(format="%Y") %}
+
+						{% if year == config.extra.copyright_start_year %}
+							© {{ year }} {{ config.title }}
+						{% else %}
+							© {{ config.extra.copyright_start_year }} -
+							{{ year }}
+							{{ config.title }}
+						{% endif %}
+					</p>
+				</div>
+
+				<div class="footer__column">
+					<p>
+						Ontwikkeld door
+						<a href="https://vanmenxel.nl" target="_blank" rel="noreferrer noopener">Van Menxel Solutions</a>
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<script src="{{ get_url(path='/main.js') }}" type="module"></script>
+
+		<script>
+			if (window.netlifyIdentity) {
+				window.netlifyIdentity.on("init", (user) => {
+					if (!user) {
+						window.netlifyIdentity.on("login", () => {
+							document.location.href = "/admin/";
+						});
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

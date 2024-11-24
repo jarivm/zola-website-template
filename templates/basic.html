@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+	{{ macros::hero_small(title=page.title, image=page.extra.hero_image) }}
+
+	<section class="section content">{{ page.content | safe }}</section>
+{% endblock content %}

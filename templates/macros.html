@@ -1,0 +1,20 @@
+{% macro example() %}
+	<p>Example</p>
+{% endmacro cta %}
+
+{% macro hero_small(title, image) %}
+	<section
+		class="hero hero--small"
+		style="
+			background-image: linear-gradient(
+					rgba(0, 0, 0, 0.4),
+					rgba(0, 0, 0, 0.4)
+				),
+				url({{ image }});
+		"
+	>
+		<div class="hero__content">
+			<h1>{{ title }}</h1>
+		</div>
+	</section>
+{% endmacro cta %}

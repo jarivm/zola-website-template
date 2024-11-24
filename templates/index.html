@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+	<section
+		class="hero"
+		style="
+			background-image: linear-gradient(
+					rgba(0, 0, 0, 0.4),
+					rgba(0, 0, 0, 0.4)
+				),
+				url({{ section.extra.hero_image }});
+		"
+	>
+		<div class="hero__content">
+			<h1>Dit is een demonstratie van een website</h1>
+
+			<p>Wil je ook een website?</p>
+
+			<a class="button button--primary" href="/contact/">Contact</a>
+		</div>
+	</section>
+
+	<section class="section content">{{ section.content | safe }}</section>
+
+	{% set posts = get_section(path="posts/_index.md") %}
+
+	<section class="section">
+		<div class="content">
+			<h2>Nieuwste posts</h2>
+		</div>
+
+		<div class="posts posts--horizontal">
+			{% for post in posts.pages %}
+				<article>
+					<a href="{{ post.path }}">
+						<img
+							class="post__thumbnail"
+							src="{{ post.extra.image }}"
+							alt="{{ post.extra.image_alt }}"
+						/>
+
+						<div class="post__content">
+							<h3>{{ post.title }}</h3>
+
+							<time datetime="{{ post.date }}"
+								>{{ post.date | date(locale="nl_NL", format="%_d %B %Y") }}</time
+							>
+						</div>
+					</a>
+				</article>
+			{% endfor %}
+
+			<article>
+				<a href="/posts/">
+					<div class="post__content">
+						<div class="post__thumbnail"></div>
+
+						<h3>>> Alle posts</h3>
+					</div>
+				</a>
+			</article>
+		</div>
+	</section>
+
+	<section class="section--wide">
+		<div class="section cta">
+			<h2>Wil je dit ook? Laat het ons weten.</h2>
+
+			<p>
+				<a class="button button--primary" href="/contact/">Contact</a>
+			</p>
+		</div>
+	</section>
+{% endblock content %}

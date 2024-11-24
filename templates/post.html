@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+	<section class="section content">
+		<h1>{{ page.title }}</h1>
+
+		<img src="{{ page.extra.image }}" alt="{{ page.extra.image_alt }}" />
+
+		<p>
+			{% if page.updated %}
+				<time datetime="{{ page.updated | safe }}">
+					{{ page.updated | date(locale="nl_NL", format="%_d %B %Y") }}
+				</time>
+			{% else %}
+				<time datetime="{{ page.date | safe }}">
+					{{ page.date | date(locale="nl_NL", format="%_d %B %Y") }}
+				</time>
+			{% endif %}
+			· Door Auteur
+		</p>
+
+		<div class="regular">{{ page.content | safe }}</div>
+	</section>
+
+	<section class="section content">
+		{% if page.higher %}
+			<a href="{{ page.higher.path }}" title="{{ page.higher.title }}"
+				>Vorige: {{ page.higher.title }}</a
+			>
+		{% endif %}
+
+		{% if page.lower %}
+			<a href="{{ page.lower.path }}" title="{{ page.lower.description }}"
+				>Volgende: {{ page.lower.title }}</a
+			>
+		{% endif %}
+	</section>
+{% endblock content %}

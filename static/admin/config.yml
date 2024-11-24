@@ -1,0 +1,103 @@
+backend:
+    name: git-gateway
+    branch: main
+
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+    - name: "post"
+      label: "Posts"
+      label_singular: "Post"
+      folder: "content/posts"
+      create: true
+      slug: "{{slug}}"
+      extension: "md"
+      format: "toml-frontmatter"
+      # Workaround: Ideally this would be extra.is_visible_in_cms, but DecapCMS
+      # does not currently seem to support filtering subfields.
+      filter: { field: "is_visible_in_cms", value: true }
+      fields:
+          - { label: "Titel", name: "title", widget: "string" }
+          - {
+                label: "URL Slug",
+                name: "url",
+                widget: "string",
+                hint: "Pad waarmee de post bezocht kan worden. Default is de titel.",
+                required: false,
+            }
+          - { label: "Beschrijving", name: "description", widget: "string" }
+          - { label: "Datum", name: "date", widget: "datetime" }
+          - label: "Overig"
+            name: "extra"
+            widget: "object"
+            fields:
+                - {
+                      label: "Uitgelichte afbeelding",
+                      name: "image",
+                      widget: "image",
+                  }
+                - {
+                      label: "Uitgelichte afbeelding alt tekst",
+                      name: "image_alt",
+                      widget: "string",
+                  }
+          - {
+                label: "Visible",
+                name: "is_visible_in_cms",
+                widget: hidden,
+                default: true,
+            }
+          - { label: "Body", name: "body", widget: "markdown" }
+    - name: "settings"
+      label: "Instellingen"
+      files:
+          - label: "Algemeen"
+            name: "general"
+            editor:
+                preview: false
+            extension: "toml"
+            file: "config.toml"
+            format: "toml"
+            fields:
+                - {
+                      label: "Site basis URL",
+                      name: "base_url",
+                      widget: "string",
+                  }
+                - { label: "Site titel", name: "title", widget: "string" }
+                - {
+                      label: "Site beschrijving",
+                      name: "description",
+                      widget: "string",
+                  }
+                - { label: "Site auteur", name: "author", widget: "string" }
+                - label: "Overige instellingen"
+                  name: "extra"
+                  widget: "object"
+                  fields:
+                      - label: "Organisatie"
+                        name: "org"
+                        widget: "object"
+                        fields:
+                            - { label: "Naam", name: "name", widget: "string" }
+                            - {
+                                  label: "Email",
+                                  name: "email",
+                                  widget: "string",
+                              }
+                            - {
+                                  label: "Telefoon",
+                                  name: "phone",
+                                  widget: "string",
+                              }
+                            - {
+                                  label: "KVK-nr",
+                                  name: "kvk_nr",
+                                  widget: "string",
+                              }
+                            - {
+                                  label: "Btw-id",
+                                  name: "btw_id",
+                                  widget: "string",
+                              }

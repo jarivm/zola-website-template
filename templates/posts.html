@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+	{{ macros::hero_small(title=section.title, image=section.extra.hero_image) }}
+
+	<section class="section">
+		<div class="content">{{ section.content | safe }}</div>
+
+		{% for month, pages in paginator.pages | group_by(attribute="month") %}
+			{% set first_page = pages | nth(n=0) %}
+			<h2>
+				{{ first_page.date | date(locale="nl_NL", format="%B %Y") | capitalize }}
+			</h2>
+
+			<div class="posts">
+				{% for post in pages %}
+					<article>
+						<a href="{{ post.path }}">
+							<img
+								src="{{ post.extra.image }}"
+								alt="{{ post.extra.image_alt }}"
+							/>
+
+							<h3>{{ post.title }}</h3>
+
+							<time datetime="{{ post.date }}"
+								>{{ post.date | date(locale="nl_NL", format="%_d %B %Y") }}</time
+							>
+						</a>
+					</article>
+				{% endfor %}
+			</div>
+		{% endfor %}
+
+		{% if paginator.number_pagers > 1 %}
+			<nav class="pagination">
+				<div>
+					{% if paginator.previous %}
+						<a class="previous" href="{{ paginator.previous }}"
+							>‹ Nieuwer</a
+						>
+					{% endif %}
+				</div>
+
+				<span>{{ paginator.current_index }}</span>
+
+				<div>
+					{% if paginator.next %}
+						<a class="next" href="{{ paginator.next }}">Ouder ›</a>
+					{% endif %}
+				</div>
+			</nav>
+		{% endif %}
+	</section>
+{% endblock content %}

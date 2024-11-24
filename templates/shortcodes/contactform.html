@@ -1,0 +1,66 @@
+{% if config.extra.enable_form %}
+	<form
+		class="form"
+		name="contact"
+		method="POST"
+		data-netlify="true"
+		action="/bedankt/"
+		netlify-honeypot="form-honeypot"
+	>
+		<div class="form__row">
+			<label class="label" for="form-name"
+				>{{ trans(key="form_name", lang=lang) }}</label
+			>
+			<input id="form-name" name="name" type="text" required />
+		</div>
+
+		<div class="form__row">
+			<label class="label" for="form-email"
+				>{{ trans(key="form_email", lang=lang) }}</label
+			>
+			<input id="form-email" name="email" type="email" required />
+		</div>
+
+		<div class="form__row">
+			<label class="label" for="form-message"
+				>{{ trans(key="form_message", lang=lang) }}</label
+			>
+			<textarea id="form-message" name="message" required></textarea>
+		</div>
+
+		<div class="form__row form__checkbox">
+			<input
+				id="form-check-privacy"
+				type="checkbox"
+				name="check-privacy"
+				value="Ik ben akkoord"
+				required
+			/>
+			<label class="label" for="form-check-privacy">
+				Ik begrijp en accepteer het
+				<a href="/privacy" title="Privacybeleid" target="_blank"
+					>het privacybeleid</a
+				>.
+			</label>
+		</div>
+		<div class="hidden">
+			<label for="form-honeypot"></label>
+			<input id="form-honeypot" type="text" name="honeypot" />
+		</div>
+
+		<p>
+			<input
+				type="submit"
+				class="button"
+				value="{{ trans(key="form_submit", lang=lang) }}"
+				title="Verzend het formulier"
+			/>
+		</p>
+	</form>
+{% else %}
+	<p>
+		Helaas is het formulier momenteel niet beschikbaar. Je kan me bereiken
+		via
+		<a href="mailto:{{ config.extra.email }}">{{ config.extra.email }}</a>.
+	</p>
+{% endif %}
