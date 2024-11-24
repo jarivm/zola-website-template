@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+	<section class="hero" style="">
+		<div
+			class="hero"
+			style="
+			background-image: linear-gradient(
+					rgba(0, 0, 0, 0.4),
+					rgba(0, 0, 0, 0.4)
+				),
+                url(https://picsum.photos/seed/hero/1280/720);
+		"
+		>
+        <div class="hero__content">
+			<h1>Dit is een demonstratie van een website</h1>
+
+			<p>Wil je ook een website?</p>
+
+			<p><a class="button" href="/contact/">Contact</a></p>
+        </div>
+		</div>
+	</section>
+
+	<section class="content">{{ section.content | safe }}</section>
+
+	{% set posts = get_section(path="posts/_index.md") %}
+
+	<section class="content">
+		<h2>Nieuwste posts</h2>
+
+		<div class="posts">
+			{% for post in posts.pages %}
+				<article class="posts__entry">
+					<a href="{{ post.path }}">
+						<img
+							src="{{ post.extra.image }}"
+							alt="{{ post.extra.image_alt }}"
+						/>
+
+						<h3>{{ post.title }}</h3>
+
+						<time datetime="{{ post.date }}">{{ post.date }}</time>
+					</a>
+				</article>
+			{% endfor %}
+
+            <article class="posts__entry">
+                <a href="/posts/">
+                    <h3>>> Alle posts</h3>
+                </a>
+            </article>
+		</div>
+	</section>
+
+	<section class="content--wide">
+        <div class="content cta">
+            <h2>Wil je dit ook? Laat het ons weten.</h2>
+
+            <p><a class="button" href="/contact/">Contact</a></p>
+        </div>
+	</section>
+{% endblock content %}

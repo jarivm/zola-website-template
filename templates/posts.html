@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+	<section class="content">
+        <h1>{{ section.title }}</h1>
+
+        {{ section.content | safe }}
+
+		{% for month, pages in section.pages | group_by(attribute="month") %}
+			{% set first_page = pages | nth(n=0) %}
+			<h2>
+				{{ first_page.date | date(locale="nl_NL", format="%B %Y") | capitalize }}
+			</h2>
+
+			{% for page in pages %}
+				<article class="target">
+					<h3>
+						<a
+							href="{{ page.permalink | safe }}"
+							title="{{ page.description }}"
+							>{{ page.title }}</a
+						>
+					</h3>
+					<p>{{ page.description }}</p>
+				</article>
+			{% endfor %}
+		{% endfor %}
+	</section>
+{% endblock content %}

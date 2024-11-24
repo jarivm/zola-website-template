@@ -1,0 +1,38 @@
+[build]
+base = "/"
+publish = "/public/"
+command = "zola build"
+
+[build.environment]
+ZOLA_VERSION = "0.19.2"
+
+[build.processing]
+skip_processing = false
+
+[build.processing.css]
+bundle = true
+minify = true
+
+[build.processing.js]
+bundle = true
+minify = true
+
+[build.processing.html]
+pretty_urls = true
+
+[build.processing.images]
+compress = true
+
+[context.deploy-preview]
+command = "zola build --base-url $DEPLOY_PRIME_URL"
+
+# Skip all post processing in previews.
+[context.deploy-preview.processing]
+skip_processing = true
+
+[[redirects]]
+from = "https://example.netlify.com/*"
+to = "https://example.com/:splat"
+status = 301
+
+
