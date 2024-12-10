@@ -1,4 +1,4 @@
-base_url = "https://vanmenxel-website-starter-kit.netlify.app"
+base_url = "https://website-starter-kit.pages.dev/"
 default_language = "nl"
 title = "Bedrijfsnaam"
 description = "Dit is een beschrijving van deze website. De beschrijving bestaat uit 50 tot 160 tekens."
